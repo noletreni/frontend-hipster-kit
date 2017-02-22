@@ -1,39 +1,10 @@
-# frontend-hipster-kit
+# KalJA - Kalasens Jättebra Anmälningssystem
 
-This is a React Template to get you up and running with the following
-stack quickly:
+Anmälningssystem för TF:s kalas.
 
-### Tech stack (React)
+Backend: https://github.com/noletreni/kalja-backend
 
-* [react](https://facebook.github.io/react/), component based UI library
-* [react-router v4](https://github.com/ReactTraining/react-router/tree/v4), keep UI in sync with the URL
-* [material-ui](http://www.material-ui.com/), React components that implement Google's Material Design
-* [react-intl](https://github.com/yahoo/react-intl), internationalisation support
-
-### Tech stack (Redux)
-
-* [redux](http://redux.js.org/), predictable container for app state
-* [redux-thunk](https://github.com/gaearon/redux-thunk), async support for redux actions
-* [redux-api](https://github.com/lexich/redux-api), store REST API responses and status in redux
-* [connected-react-router](https://github.com/supasate/connected-react-router), sync router state with redux
-* [redux-act](https://github.com/pauldijou/redux-act), use actions themselves as references inside reducers
-
-### Tech stack (misc)
-
-* [offline-plugin](https://github.com/NekR/offline-plugin), cache webpack output assets clientside
-* [lodash](https://lodash.com/), various useful JavaScript utils
-
-### Tools
-
-* [babel](https://babeljs.io/), transpile ES6 and React's JSX syntax into ES5
-* [webpack v2](https://webpack.github.io/), bundle everything together
-* [eslint](http://eslint.org/), make sure your code is remotely sane, using [Airbnb's JS style guide](https://github.com/airbnb/javascript)
-* [jest](https://facebook.github.io/jest/), painless JavaScript testing
-
-### TODO
-
-* Replace connected-react-router with something more recent once available? This library currently [breaks browser back button when time-traveling](https://github.com/ReactTraining/react-router/commit/9c69957c2fc34920b3b6761bdb983d0f13320d79#commitcomment-20862310)
-* Load localisation files on demand
+Baserat på: https://github.com/FruitieX/frontend-hipster-kit
 
 ## Setup
 
