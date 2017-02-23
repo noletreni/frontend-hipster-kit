@@ -52,7 +52,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      title: 'frontend-hipster-kit',
+      title: 'KalJA',
       favicon: 'assets/favicon.ico',
       template: 'webpack/template.html',
     }),

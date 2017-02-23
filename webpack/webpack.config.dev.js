@@ -44,7 +44,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      title: 'frontend-hipster-kit',
+      title: 'KalJA',
       favicon: 'assets/favicon.ico',
       template: 'webpack/template.html',
     }),

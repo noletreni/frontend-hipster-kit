@@ -38,6 +38,11 @@ const rest = reduxApi({
     url: `${config.apiRoot}/users/{userId}`,
     crud: true,
   },
+  events: {
+    url: `${config.apiRoot}/events`,
+    transformer: transformers.array,
+    crud: true,
+  },
   // Add more API endpoints here! Examples below:
 
   /*

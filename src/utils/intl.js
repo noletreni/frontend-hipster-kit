@@ -1,18 +1,24 @@
 import { addLocaleData } from 'react-intl';
 
+import localeSv from 'react-intl/locale-data/sv';
 import localeEn from 'react-intl/locale-data/en';
 import localeFi from 'react-intl/locale-data/fi';
 
 import { intlReducer } from 'react-intl-redux';
 
+import sv from '../../translations/sv';
 import en from '../../translations/en';
 import fi from '../../translations/fi';
 
 export const storeLocaleForUser = (user, locale) => localStorage.setItem(`locale#${user}`, locale);
 export const getLocaleForUser = user => localStorage.getItem(`locale#${user}`);
 
-addLocaleData([...localeEn, ...localeFi]);
+addLocaleData([...localeSv, ...localeEn, ...localeFi]);
 export const languages = {
+  sv: {
+    translations: sv,
+    name: 'Svenska',
+  },
   en: {
     translations: en,
     name: 'English',
@@ -42,9 +48,9 @@ if (languages[languageWithoutRegionCode]) {
   initialState.messages = languages[defaultLang].translations;
   initialState.locale = defaultLang;
 } else {
-  // default to 'en' locale
-  initialState.messages = languages.en.translations;
-  initialState.locale = 'en';
+  // default to 'sv' locale
+  initialState.messages = languages.sv.translations;
+  initialState.locale = 'sv';
 }
 
 export const reducer = (state = initialState, action) => intlReducer(state, action);
