@@ -6,16 +6,15 @@ import { Route, Redirect } from 'react-router-dom';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import UsersIcon from 'material-ui/svg-icons/action/supervisor-account';
 import PreferencesIcon from 'material-ui/svg-icons/action/settings';
+import LoginIcon from 'material-ui/svg-icons/action/account-circle';
 import LogoutIcon from 'material-ui/svg-icons/action/exit-to-app';
 
 // Components
 import Home from '../modules/Home';
 import Users from '../modules/Users';
 import Preferences from '../modules/Preferences';
+import Login from '../modules/Login';
 import Logout from '../modules/Logout';
-
-import NavigationDrawer from '../modules/NavigationDrawer';
-import Header from '../modules/Header';
 
 /*
 Configure all your app's routes here.
@@ -57,12 +56,21 @@ const routeConfigs = [{
   requiresLogin: true,
   showHeader: true,
 }, {
+  path: '/login',
+  name: 'Login',
+  component: Login,
+  icon: LoginIcon,
+  requiresLogin: false,
+  showHeader: false,
+  hideWhenScope: ['user', 'admin'],
+}, {
   path: '/logout',
   name: 'Logout',
   component: Logout,
   icon: LogoutIcon,
   requiresLogin: false,
-  showHeader: false,
+  showHeader: true,
+  hideWhenScope: [null],
 }];
 
 export default routeConfigs;
@@ -93,14 +101,6 @@ let AuthRedirectRoute = ({ loggedIn, routeConfig, ...rest }) => (
       />
     ) : (
       <div>
-        {
-          routeConfig.showHeader && (
-            <div>
-              <NavigationDrawer />
-              <Header />
-            </div>
-          )
-        }
         { React.createElement(routeConfig.component, props) }
       </div>
     )
@@ -111,7 +111,7 @@ let AuthRedirectRoute = ({ loggedIn, routeConfig, ...rest }) => (
 AuthRedirectRoute.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   routeConfig: RouteConfigShape.isRequired,
-  location: React.PropTypes.string,
+  location: PropTypes.string,
 };
 
 AuthRedirectRoute.defaultProps = {
