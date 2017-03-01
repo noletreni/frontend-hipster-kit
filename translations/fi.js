@@ -25,4 +25,5 @@ export default {
 
   // Miscellaneous
   close: 'Sulje',
+  showDetails: 'Lisätiedot',
 };

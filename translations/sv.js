@@ -24,4 +24,5 @@ export default {
 
   // Miscellaneous
   close: 'Stäng',
+  showDetails: 'Detaljer',
 };

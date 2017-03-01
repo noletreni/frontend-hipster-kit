@@ -5,6 +5,7 @@ import { Route, Redirect } from 'react-router-dom';
 // Icons
 import HomeIcon from 'material-ui-old/svg-icons/action/home';
 import UsersIcon from 'material-ui-old/svg-icons/action/supervisor-account';
+import EventsIcon from 'material-ui-old/svg-icons/action/date-range';
 import PreferencesIcon from 'material-ui-old/svg-icons/action/settings';
 import LoginIcon from 'material-ui-old/svg-icons/action/account-circle';
 import LogoutIcon from 'material-ui-old/svg-icons/action/exit-to-app';
@@ -12,6 +13,7 @@ import LogoutIcon from 'material-ui-old/svg-icons/action/exit-to-app';
 // Components
 import Home from '../modules/Home';
 import Users from '../modules/Users';
+import Events from '../modules/Events';
 import Preferences from '../modules/Preferences';
 import Login from '../modules/Login';
 import Logout from '../modules/Logout';
@@ -45,6 +47,13 @@ const routeConfigs = [{
   name: 'Users',
   component: Users,
   icon: UsersIcon,
+  requiresLogin: true,
+  showHeader: true,
+}, {
+  path: '/events',
+  name: 'Events',
+  component: Events,
+  icon: EventsIcon,
   separator: true,
   requiresLogin: true,
   showHeader: true,

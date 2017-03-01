@@ -25,4 +25,5 @@ export default {
 
   // Miscellaneous
   close: 'Close',
+  showDetails: 'Details',
 };

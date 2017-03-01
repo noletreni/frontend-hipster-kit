@@ -24,7 +24,7 @@ class Home extends React.Component {
 
     const cardActions = (
       <CardActions>
-        <Button>
+        <Button raised primary>
           {formatMessage({ id: 'enroll' })}
         </Button>
       </CardActions>
