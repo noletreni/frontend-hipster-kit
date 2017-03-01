@@ -6,6 +6,9 @@ export default {
   Preferences: 'Inställningar',
   Logout: 'Logga ut',
 
+  // Home view
+  enroll: 'Anmäl dig',
+
   // Users view
   userId: 'ID',
   email: 'E-post',

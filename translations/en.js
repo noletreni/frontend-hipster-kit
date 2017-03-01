@@ -7,6 +7,9 @@ export default {
   Logout: 'Logout',
   Login: 'Login',
 
+  // Home view
+  enroll: 'Enroll',
+
   // Users view
   userId: 'ID',
   email: 'E-mail',

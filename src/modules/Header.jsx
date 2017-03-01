@@ -1,16 +1,19 @@
 import React, { PropTypes } from 'react';
 
 import AppBar from 'material-ui/AppBar';
-
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import Toolbar from 'material-ui/Toolbar';
+import Text from 'material-ui/Text';
 import IconButton from 'material-ui/IconButton';
-
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import AvatarIcon from 'material-ui/svg-icons/action/account-circle';
-import LogOutIcon from 'material-ui/svg-icons/action/exit-to-app';
-
+import MenuIcon from 'material-ui/svg-icons/menu';
 import Divider from 'material-ui/Divider';
+
+import OldIconButton from 'material-ui-old/IconButton';
+import IconMenu from 'material-ui-old/IconMenu';
+import MenuItem from 'material-ui-old/MenuItem';
+
+import MoreVertIcon from 'material-ui-old/svg-icons/navigation/more-vert';
+import AvatarIcon from 'material-ui-old/svg-icons/action/account-circle';
+import LogOutIcon from 'material-ui-old/svg-icons/action/exit-to-app';
 
 import { FormattedMessage, injectIntl } from 'react-intl';
 
@@ -67,7 +70,7 @@ class Header extends React.Component {
 
     const rightElement = user ? (
       <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconButtonElement={<OldIconButton iconStyle={{ color: 'white' }}><MoreVertIcon /></OldIconButton>}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
@@ -76,7 +79,7 @@ class Header extends React.Component {
           primaryText={(
             <div style={{ paddingTop: 12, lineHeight: '24px' }}>
               <div> {user.email} </div>
-              <div style={{ color: theme.palette.disabledColor }}> Scope: {user.scope} </div>
+              <div style={{ color: theme.legacyPalette.disabledColor }}> Scope: {user.scope} </div>
             </div>
           )}
           onTouchTap={() => preferences()}
@@ -91,7 +94,7 @@ class Header extends React.Component {
       </IconMenu>
     ) : (
       <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconButtonElement={<OldIconButton iconStyle={{ color: 'white' }}><MoreVertIcon /></OldIconButton>}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
@@ -104,13 +107,26 @@ class Header extends React.Component {
     );
 
     return (
-      <div>
-        <AppBar
-          title={<FormattedMessage id={getTitle(path)} />}
-          onLeftIconButtonTouchTap={() => doToggleDrawer()}
-          iconElementRight={rightElement}
-        />
-      </div>
+      <AppBar
+        style={{ position: 'relative' }}
+      >
+        <Toolbar>
+          <IconButton
+            contrast
+            onTouchTap={() => doToggleDrawer()}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Text
+            style={{ flex: 1 }}
+            type="title"
+            colorInherit
+          >
+            <FormattedMessage id={getTitle(path)} />
+          </Text>
+          { rightElement }
+        </Toolbar>
+      </AppBar>
     );
   }
 }

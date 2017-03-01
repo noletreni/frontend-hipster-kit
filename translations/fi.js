@@ -7,6 +7,9 @@ export default {
   Logout: 'Kirjaudu ulos',
   Login: 'Kirjaudu sisään',
 
+  // Home view
+  enroll: 'Ilmoittaudu',
+
   // Users view
   userId: 'ID',
   email: 'Sähköpostiosoite',

@@ -2,24 +2,15 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import { Card, CardActions, CardContent } from 'material-ui/Card';
+import Button from 'material-ui/Button';
+import Text from 'material-ui/Text';
 
 import rest from '../utils/rest';
 import theme from '../utils/theme';
 
-const styles = {
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    padding: theme.spacing.desktopGutter,
-  },
-  card: {
-    flex: 1,
-    flexBasis: 400,
-  },
-};
+import CardWrapper from '../components/CardWrapper';
+import ResponsiveCard from '../components/ResponsiveCard';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -33,27 +24,34 @@ class Home extends React.Component {
 
     const cardActions = (
       <CardActions>
-        <FlatButton label="Anmäl dig" />
+        <Button>
+          {formatMessage({ id: 'enroll' })}
+        </Button>
       </CardActions>
     );
+
     const eventCards = events.map(event => (
-      <Card key={event.id} style={styles.card}>
-        <CardHeader
-          title={event.name}
-          subtitle={new Date(event.startDate).toLocaleString(locale)}
-          actAsExpander
-          showExpandableButton
-        />
+      <ResponsiveCard key={event.id}>
+        <CardContent expandable>
+          <Text component="h2">
+            {event.name}
+          </Text>
+          <Text component="h3">
+            {new Date(event.startDate).toLocaleString(locale)}
+          </Text>
+          <Text>
+            {event.description}
+          </Text>
+        </CardContent>
+
         {cardActions}
-        <CardText expandable>
-          {event.description}
-        </CardText>
-      </Card>
+      </ResponsiveCard>
     ));
+
     return (
-      <div style={styles.wrapper}>
+      <CardWrapper>
         {eventCards}
-      </div>
+      </CardWrapper>
     );
   }
 }
