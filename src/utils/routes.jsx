@@ -14,6 +14,7 @@ import LogoutIcon from 'material-ui-old/svg-icons/action/exit-to-app';
 import Home from '../modules/Home';
 import Users from '../modules/Users';
 import Events from '../modules/Events';
+import CreateEvent from '../modules/CreateEvent';
 import Preferences from '../modules/Preferences';
 import Login from '../modules/Login';
 import Logout from '../modules/Logout';
@@ -57,6 +58,15 @@ const routeConfigs = [{
   separator: true,
   requiresLogin: true,
   showHeader: true,
+}, {
+  path: '/events/create',
+  name: 'Create event',
+  component: CreateEvent,
+  icon: EventsIcon,
+  separator: true,
+  requiresLogin: true,
+  showHeader: true,
+  hideWhenScope: ['user', 'admin', 'participant', null],
 }, {
   path: '/preferences',
   name: 'Preferences',
