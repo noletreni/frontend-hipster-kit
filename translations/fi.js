@@ -3,6 +3,7 @@ export default {
   navigation: 'Navigaatio',
   Home: 'Koti',
   Users: 'Käyttäjät',
+  Events: 'Tapahtumat',
   Preferences: 'Asetukset',
   Logout: 'Kirjaudu ulos',
   Login: 'Kirjaudu sisään',
@@ -16,6 +17,12 @@ export default {
   description: 'Kuvaus',
   showUserDetails: 'Lisätiedot',
   userDetails: 'Käyttäjän lisätiedot',
+
+  // Events view
+  eventId: 'ID',
+  eventName: 'Tapahtuman nimi',
+  eventDetails: 'Tapahtuman lisätiedot',
+  eventStartDate: 'Aloituspvm.',
 
   // Preferences view
   language: 'Sovelluksen kieli',

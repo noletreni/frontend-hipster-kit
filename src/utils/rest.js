@@ -43,6 +43,10 @@ const rest = reduxApi({
     transformer: transformers.array,
     crud: true,
   },
+  eventDetails: {
+    url: `${config.apiRoot}/events/:eventId`,
+    crud: true,
+  },
   // Add more API endpoints here! Examples below:
 
   /*

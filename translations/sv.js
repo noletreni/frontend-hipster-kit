@@ -3,6 +3,7 @@ export default {
   navigation: 'Navigation',
   Home: 'Hem',
   Users: 'Användare',
+  Events: 'Evenemang',
   Preferences: 'Inställningar',
   Logout: 'Logga ut',
 
@@ -15,6 +16,12 @@ export default {
   description: 'Beskrivning',
   showUserDetails: 'Detaljer',
   userDetails: 'Användardetaljer',
+
+  // Events view
+  eventId: 'ID',
+  eventName: 'Evenemangets namn',
+  eventDetails: 'Evenemangets detaljer',
+  eventStartDate: 'Startdatum',
 
   // Preferences view
   language: 'Språk',

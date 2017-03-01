@@ -3,6 +3,7 @@ export default {
   navigation: 'Navigation',
   Home: 'Home',
   Users: 'Users',
+  Events: 'Events',
   Preferences: 'Preferences',
   Logout: 'Logout',
   Login: 'Login',
@@ -16,6 +17,12 @@ export default {
   description: 'Description',
   showUserDetails: 'Details',
   userDetails: 'User details',
+
+  // Events view
+  eventId: 'ID',
+  eventName: 'Event name',
+  eventDetails: 'Event details',
+  eventStartDate: 'Start date',
 
   // Preferences view
   language: 'App language',

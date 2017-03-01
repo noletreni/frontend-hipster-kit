@@ -47,7 +47,14 @@ class Events extends React.Component {
   }
 
   render() {
-    const { events, locale, refreshEvent, eventDetails, createEvent, intl: { formatMessage } } = this.props;
+    const {
+      events,
+      locale,
+      refreshEvent,
+      eventDetails,
+      createEvent,
+      intl: { formatMessage },
+    } = this.props;
     const { dialogOpen } = this.state;
 
     // Show the following event details in the dialog
@@ -57,10 +64,10 @@ class Events extends React.Component {
           <b>{ formatMessage({ id: 'eventId' })}</b>{`: ${eventDetails.data.id}` }
         </div>
         <div style={styles.eventDetail}>
-          <b>{ formatMessage({ id: 'email' })}</b>{`: ${eventDetails.data.email}` }
+          <b>{ formatMessage({ id: 'eventDetails' })}</b>{`: ${eventDetails.data.description}` }
         </div>
         <div style={styles.eventDetail}>
-          <b>{ formatMessage({ id: 'description' })}</b>{`: ${eventDetails.data.description}` }
+          <b>{ formatMessage({ id: 'eventStartDate' })}</b>{`: ${eventDetails.data.startDate}` }
         </div>
       </div>
     ) : null;
