@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { push } from 'connected-react-router';
+import { LinearProgress } from 'material-ui/Progress';
 
 import {
   CardContent,
@@ -34,6 +35,7 @@ class EventPage extends React.Component {
     const {
       eventDetails,
       locale,
+      loading,
       intl: { formatMessage },
      } = this.props;
 
@@ -44,17 +46,30 @@ class EventPage extends React.Component {
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-    }
+    };
+
+    const progress = loading ? <LinearProgress /> : null;
+
     return (
       <CardWrapper>
         <ResponsiveCard>
-          <CardContent>
-            <Text type="headline" component="h1">{ eventDetails.data.name }</Text>
-            <Text type="caption">{ formatMessage({ id: 'createdBy' })} { eventDetails.data.ownerName }</Text>
-            <Text type="body1"><b>{ formatMessage({ id: 'eventStartTime' })}:</b> { new Date(eventDetails.data.startDate).toLocaleString(locale, dateOptions) }</Text>
-            <Text type="body1"><b>{ formatMessage({ id: 'description' })}:</b> { eventDetails.data.description }</Text>
+          { loading ?
+            <CardContent>
+              <Text type="headline" component="h1">{ '...' }</Text>
+              <Text type="caption">{ '...' }</Text>
+              <Text type="body1">{ '...' }</Text>
+              <Text type="body1">{ '...' }</Text>
+            </CardContent>
+            :
+            <CardContent>
+              <Text type="headline" component="h1">{ eventDetails.name }</Text>
+              <Text type="caption">{ formatMessage({ id: 'createdBy' })} { eventDetails.ownerName }</Text>
+              <Text type="body1"><b>{ formatMessage({ id: 'eventStartTime' })}:</b> { new Date(eventDetails.startDate).toLocaleString(locale, dateOptions) }</Text>
+              <Text type="body1"><b>{ formatMessage({ id: 'description' })}:</b> { eventDetails.description }</Text>
+            </CardContent>
+          }
 
-          </CardContent>
+          { progress }
         </ResponsiveCard>
       </CardWrapper>
     );
@@ -64,7 +79,8 @@ class EventPage extends React.Component {
 export default injectIntl(connect(
   (state, ownProps) => ({
     events: state.events,
-    eventDetails: state.eventDetails,
+    eventDetails: state.eventDetails.data,
+    loading: state.eventDetails.loading,
     locale: state.intl.locale,
     eventId: ownProps.match.params.id,
   }),
