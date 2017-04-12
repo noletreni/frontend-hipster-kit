@@ -30,13 +30,9 @@ class CreateEvent extends React.Component {
       endTime,
     } = this.state;
 
-    startTime.setMilliseconds(0);
-    startTime.setSeconds(0);
     startTime.setMinutes(0);
     startTime.setHours(0);
 
-    endTime.setMilliseconds(0);
-    endTime.setSeconds(0);
     endTime.setMinutes(59);
     endTime.setHours(23);
   }
@@ -149,9 +145,13 @@ export default injectIntl(connect(
 
       timedEvent.startDate.setHours(event.startTime.getHours());
       timedEvent.startDate.setMinutes(event.startTime.getMinutes());
+      timedEvent.startDate.setSeconds(0);
+      timedEvent.startDate.setMilliseconds(0);
 
       timedEvent.endDate.setHours(event.endTime.getHours());
       timedEvent.endDate.setMinutes(event.endTime.getMinutes());
+      timedEvent.endDate.setSeconds(0);
+      timedEvent.endDate.setMilliseconds(0);
 
       delete timedEvent.startTime;
       delete timedEvent.endTime;
