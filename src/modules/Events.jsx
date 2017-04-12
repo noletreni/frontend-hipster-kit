@@ -16,6 +16,8 @@ import {
   TableRowColumn,
 } from 'material-ui-old/Table';
 
+import CreateEventDialog from '../components/CreateEventDialog';
+
 import rest from '../utils/rest';
 
 const styles = {
@@ -70,6 +72,13 @@ class Events extends React.Component {
 
     return (
       <div>
+        <CreateEventDialog
+          isOpen={createDialogOpen}
+          submit={event => createEvent(event)}
+          close={() => this.closeDialog('create')}
+          loading={false}
+        />
+
         <Table selectable={false}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
