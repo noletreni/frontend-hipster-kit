@@ -16,7 +16,7 @@ import {
   TableRowColumn,
 } from 'material-ui-old/Table';
 
-import DialogWithButtons from '../components/DialogWithButtons';
+import CreateEventDialog from '../components/CreateEventDialog';
 
 import rest from '../utils/rest';
 
@@ -36,7 +36,7 @@ class Events extends React.Component {
     super();
 
     this.state = {
-      dialogOpen: false,
+      createDialogOpen: false,
     };
   }
 
@@ -46,42 +46,36 @@ class Events extends React.Component {
     refresh();
   }
 
+  openDialog(dialogName) {
+    this.setState({
+      [`${dialogName}DialogOpen`]: true,
+    });
+  }
+
+  closeDialog(dialogName) {
+    this.setState({
+      [`${dialogName}DialogOpen`]: false,
+    });
+  }
+
   render() {
     const {
       events,
       locale,
       refreshEvent,
-      eventDetails,
       createEvent,
       intl: { formatMessage },
     } = this.props;
-    const { dialogOpen } = this.state;
 
-    // Show the following event details in the dialog
-    const eventDetailsDescription = eventDetails ? (
-      <div>
-        <div style={styles.eventDetail}>
-          <b>{ formatMessage({ id: 'eventId' })}</b>{`: ${eventDetails.data.id}` }
-        </div>
-        <div style={styles.eventDetail}>
-          <b>{ formatMessage({ id: 'eventDetails' })}</b>{`: ${eventDetails.data.description}` }
-        </div>
-        <div style={styles.eventDetail}>
-          <b>{ formatMessage({ id: 'eventStartDate' })}</b>{`: ${eventDetails.data.startDate}` }
-        </div>
-      </div>
-    ) : null;
+    const { createDialogOpen } = this.state;
 
     return (
       <div>
-        <DialogWithButtons
-          title={formatMessage({ id: 'eventDetails' })}
-          description={eventDetailsDescription}
-          submitAction={formatMessage({ id: 'close' })}
-          isOpen={dialogOpen}
-          loading={eventDetails && eventDetails.loading}
-          submit={() => this.setState({ dialogOpen: false })}
-          close={() => this.setState({ dialogOpen: false })}
+        <CreateEventDialog
+          isOpen={createDialogOpen}
+          submit={event => createEvent(event)}
+          close={() => this.closeDialog('create')}
+          loading={false}
         />
 
         <Table selectable={false}>
@@ -119,7 +113,7 @@ class Events extends React.Component {
           </TableBody>
         </Table>
 
-        <Button fab primary onTouchTap={() => createEvent()} style={styles.fab}>
+        <Button fab primary onTouchTap={() => this.openDialog('create')} style={styles.fab}>
           <AddIcon />
         </Button>
       </div>
@@ -131,10 +125,6 @@ Events.propTypes = {
   events: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  eventDetails: PropTypes.shape({
-    data: PropTypes.object.isRequired,
-  }).isRequired,
-  createEvent: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
   refreshEvent: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
@@ -146,18 +136,16 @@ Events.propTypes = {
 export default injectIntl(connect(
   state => ({
     events: state.events,
-    eventDetails: state.eventDetails,
     locale: state.intl.locale,
   }),
   dispatch => ({
     refresh: () => {
       dispatch(rest.actions.events());
     },
-    refreshEvent: (event) => {
-      dispatch(rest.actions.eventDetails({ eventId: event.id }));
-    },
-    createEvent: () => {
-      dispatch(push('/events/create'));
+    createEvent: (event) => {
+      dispatch(rest.actions.events.post({}, {
+        body: JSON.stringify(event),
+      }));
     },
   }),
 )(Events));

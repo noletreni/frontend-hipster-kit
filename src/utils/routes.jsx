@@ -56,6 +56,14 @@ const routeConfigs = [{
   requiresLogin: true,
   showHeader: true,
 }, {
+  path: '/events',
+  name: 'Events',
+  component: Events,
+  icon: 'event_note',
+  separator: true,
+  requiresLogin: true,
+  showHeader: true,
+}, {
   path: '/events/create',
   name: 'Create event',
   component: CreateEvent,

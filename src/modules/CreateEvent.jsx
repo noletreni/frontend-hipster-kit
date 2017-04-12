@@ -122,7 +122,6 @@ class CreateEvent extends React.Component {
 }
 
 CreateEvent.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object).isRequired,
   refresh: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   intl: PropTypes.shape({
