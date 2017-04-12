@@ -20,15 +20,14 @@ class EventPage extends React.Component {
 
     this.state = {
       dialogOpen: false,
-      id: 3, //TODO: replace with actual id
     };
   }
 
 
   componentDidMount() {
-    const { refreshEvent } = this.props;
+    const { refreshEvent, eventId } = this.props;
 
-    refreshEvent(this.state.id);
+    refreshEvent(eventId);
   }
 
   render() {
@@ -63,10 +62,11 @@ class EventPage extends React.Component {
 }
 
 export default injectIntl(connect(
-  state => ({
+  (state, ownProps) => ({
     events: state.events,
     eventDetails: state.eventDetails,
     locale: state.intl.locale,
+    eventId: ownProps.match.params.id,
   }),
   dispatch => ({
     refreshEvent: (eventId) => {
