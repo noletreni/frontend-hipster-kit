@@ -35,6 +35,7 @@ Routes may optionally contain the following keys:
 import Home from '../modules/Home';
 import Users from '../modules/Users';
 import Events from '../modules/Events';
+import EventPage from '../modules/EventPage';
 import CreateEvent from '../modules/CreateEvent';
 import Preferences from '../modules/Preferences';
 import Login from '../modules/Login';
@@ -51,6 +52,14 @@ const routeConfigs = [{
   path: '/events',
   name: 'Events',
   component: Events,
+  icon: 'event_note',
+  separator: true,
+  requiresLogin: true,
+  showHeader: true,
+}, {
+  path: '/events/:id',
+  name: 'Event',
+  component: EventPage,
   icon: 'event_note',
   separator: true,
   requiresLogin: true,
