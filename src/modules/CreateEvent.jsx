@@ -7,6 +7,7 @@ import Button from 'material-ui/Button';
 import Text from 'material-ui/Text';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui-old/DatePicker';
+import TimePicker from 'material-ui-old/TimePicker';
 
 import rest from '../utils/rest';
 import theme from '../utils/theme';
@@ -24,7 +25,9 @@ class CreateEvent extends React.Component {
   state = {
     name: '',
     startDate: null,
+    startTime: null,
     endDate: null,
+    endTime: null,
     description: '',
   };
 
@@ -46,9 +49,21 @@ class CreateEvent extends React.Component {
               onChange={(event, startDate) => this.setState({ startDate })}
               locale={locale}
             />
+            <TimePicker
+              format="24hr"
+              hintText={formatMessage({ id: 'eventStartTime' })}
+              onChange={(event, startTime) => this.setState({ startTime })}
+              locale={locale}
+            />
             <DatePicker
               hintText={formatMessage({ id: 'eventEndDate' })}
               onChange={(event, endDate) => this.setState({ endDate })}
+              locale={locale}
+            />
+            <TimePicker
+              format="24hr"
+              hintText={formatMessage({ id: 'eventEndTime' })}
+              onChange={(event, endTime) => this.setState({ endTime })}
               locale={locale}
             />
             <TextField

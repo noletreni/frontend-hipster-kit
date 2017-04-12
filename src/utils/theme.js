@@ -65,8 +65,8 @@ export default {
         'rgba(255, 255, 255, 1) '
   */
   legacyPalette: {
-    primary1Color: blue[500],
-    primary2Color: blue[300],
+    primary1Color: '#b20738',
+    primary2Color: '#b20738',
     primary3Color: grey[700],
     accent1Color: orange[500],
     accent2Color: grey[200],
@@ -76,8 +76,8 @@ export default {
     canvasColor: grey[50],
     borderColor: grey[300],
     disabledColor: grey[700],
-    pickerHeaderColor: orange[500],
-    clockCircleColor: grey[700],
+    pickerHeaderColor: '#b20738',
+    clockCircleColor: grey[300],
     shadowColor: black,
   },
 };
