@@ -1,9 +1,15 @@
 import React, { PropTypes } from 'react';
 
-import TextField from 'material-ui-old/TextField';
-import Dialog from 'material-ui-old/Dialog';
+import TextField from 'material-ui/TextField';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
-import RefreshIndicator from 'material-ui-old/RefreshIndicator';
+import { LinearProgress } from 'material-ui/Progress';
 
 import ImageUpload from '../components/ImageUpload';
 
@@ -19,10 +25,6 @@ const styles = {
     maxHeight: 200,
     transition: 'all .5s',
   },
-  refresh: {
-    marginLeft: '50%',
-    marginTop: 20,
-  },
   refreshContainer: {
     flex: 1,
     textAlign: 'center',
@@ -31,14 +33,40 @@ const styles = {
 };
 
 class DialogWithButtons extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    textField: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      textAfter: PropTypes.string,
+    }),
+    imageUpload: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      textAfter: PropTypes.string,
+    }),
+    title: PropTypes.string.isRequired,
+    cancelAction: PropTypes.string,
+    submitAction: PropTypes.string.isRequired,
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
+    submit: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    loading: PropTypes.bool,
+  };
 
-    this.state = {
-      value: '',
-      file: null,
-    };
-  }
+  static defaultProps = {
+    textField: null,
+    imageUpload: null,
+    description: '',
+    cancelAction: null,
+    loading: false,
+  };
+
+  state = {
+    value: '',
+    file: null,
+  };
 
   setImageUrl = file => (
     this.setState({
@@ -75,12 +103,15 @@ class DialogWithButtons extends React.Component {
       loading,
     } = this.props;
 
+    const progress = loading ? <LinearProgress /> : null;
+
     const actions = [];
     if (cancelAction) {
       actions.push(
         <Button
           primary
-          onTouchTap={close}
+          key="cancel"
+          onClick={close}
         >
           {cancelAction}
         </Button>,
@@ -90,8 +121,9 @@ class DialogWithButtons extends React.Component {
     actions.push(
       <Button
         primary
+        key="submit"
         disabled={(textField && !this.state.value) || (imageUpload && !this.state.file)}
-        onTouchTap={() => {
+        onClick={() => {
           submit(this.state);
           close();
         }}
@@ -102,15 +134,12 @@ class DialogWithButtons extends React.Component {
 
     const dialogContents = (
       <div style={styles.container}>
-        <RefreshIndicator style={styles.refresh} size={40} top={0} left={-20} status={loading ? 'loading' : 'hide'} />
 
         <div style={loading ? styles.fadeContainer : styles.opaqueContainer}>
-          <div>
-            { description }
-          </div>
+          { description }
 
           { textField ?
-            <div>
+            <DialogContentText>
               <TextField
                 floatingLabelText={textField.label}
                 value={this.state.value}
@@ -118,73 +147,45 @@ class DialogWithButtons extends React.Component {
                 autoFocus
                 onKeyDown={this.keyDown}
               />
-            </div>
+            </DialogContentText>
             :
             null
           }
 
-          <p>
+          <DialogContentText>
             { textField && textField.textAfter }
-          </p>
+          </DialogContentText>
 
           { imageUpload ?
-            <div>
+            <DialogContentText>
               <ImageUpload setImageUrl={this.setImageUrl} label={imageUpload.label} />
-            </div>
+            </DialogContentText>
             :
             null
           }
 
-          <p>
+          <DialogContentText>
             { imageUpload && imageUpload.textAfter }
-          </p>
+          </DialogContentText>
         </div>
       </div>
     );
 
     return (
       <Dialog
-        title={title}
-        actions={actions}
-        modal={false}
         open={isOpen}
         onRequestClose={close}
-        autoScrollBodyContent
       >
-        { dialogContents }
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>
+          { dialogContents }
+        </DialogContent>
+        <DialogActions>{actions}</DialogActions>
+
+        { progress }
       </Dialog>
     );
   }
 }
-
-DialogWithButtons.propTypes = {
-  textField: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    textAfter: PropTypes.string,
-  }),
-  imageUpload: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    textAfter: PropTypes.string,
-  }),
-  title: PropTypes.string.isRequired,
-  cancelAction: PropTypes.string,
-  submitAction: PropTypes.string.isRequired,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]),
-  submit: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  loading: PropTypes.bool,
-};
-
-DialogWithButtons.defaultProps = {
-  textField: null,
-  imageUpload: null,
-  description: '',
-  cancelAction: null,
-  loading: false,
-};
 
 export default DialogWithButtons;

@@ -4,16 +4,11 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Text from 'material-ui/Text';
 import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui/svg-icons/menu';
 import Divider from 'material-ui/Divider';
+import Icon from 'material-ui/Icon';
 
-import OldIconButton from 'material-ui-old/IconButton';
-import IconMenu from 'material-ui-old/IconMenu';
-import MenuItem from 'material-ui-old/MenuItem';
-
-import MoreVertIcon from 'material-ui-old/svg-icons/navigation/more-vert';
-import AvatarIcon from 'material-ui-old/svg-icons/action/account-circle';
-import LogOutIcon from 'material-ui-old/svg-icons/action/exit-to-app';
+import { Menu } from 'material-ui/Menu';
+import { ListItem, ListItemText, ListItemIcon } from 'material-ui/List';
 
 import { FormattedMessage, injectIntl } from 'react-intl';
 
@@ -27,7 +22,6 @@ import { push } from 'connected-react-router';
 
 import { toggleDrawer } from './NavigationDrawer';
 import routes from '../utils/routes';
-import theme from '../utils/theme';
 
 const getTitle = (path) => {
   if (path === '/') {
@@ -46,17 +40,31 @@ const getTitle = (path) => {
   return `ERROR: Title not found for path: ${path}`;
 };
 
-const styles = {
-  profileMenuItem: {
-    height: 72,
-  },
-  profilePictureIcon: {
-    height: 48,
-    width: 48,
-  },
-};
-
 class Header extends React.Component {
+  static propTypes = {
+    path: PropTypes.string.isRequired,
+    doToggleDrawer: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    preferences: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      scope: PropTypes.string.isRequired,
+    }),
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  static defaultProps = {
+    user: null,
+  };
+
+  state = {
+    rightMenuOpen: false,
+    rightMenuAnchorEl: null,
+  };
+
   render() {
     const {
       path,
@@ -68,42 +76,55 @@ class Header extends React.Component {
       intl: { formatMessage },
     } = this.props;
 
-    const rightElement = user ? (
-      <IconMenu
-        iconButtonElement={<OldIconButton iconStyle={{ color: 'white' }}><MoreVertIcon /></OldIconButton>}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    const {
+      rightMenuOpen,
+      rightMenuAnchorEl,
+    } = this.state;
+
+    const hideMenu = () => this.setState({ rightMenuOpen: false });
+
+    const rightMenu = user ? (
+      <Menu
+        open={rightMenuOpen}
+        anchorEl={rightMenuAnchorEl}
+        onRequestClose={() => hideMenu()}
       >
-        <MenuItem
-          leftIcon={<AvatarIcon style={styles.profilePictureIcon} />}
-          primaryText={(
-            <div style={{ paddingTop: 12, lineHeight: '24px' }}>
-              <div> {user.email} </div>
-              <div style={{ color: theme.legacyPalette.disabledColor }}> Scope: {user.scope} </div>
-            </div>
-          )}
-          onTouchTap={() => preferences()}
-          innerDivStyle={styles.profileMenuItem}
-        />
+        <ListItem
+          button
+          onClick={() => { hideMenu(); preferences(); }}
+        >
+          <ListItemIcon>
+            <Icon>account_circle</Icon>
+          </ListItemIcon>
+          <ListItemText primary={user.email} secondary={`Scope: ${user.scope}`} />
+        </ListItem>
         <Divider />
-        <MenuItem
-          leftIcon={<LogOutIcon />}
-          primaryText={formatMessage({ id: 'Logout' })}
-          onTouchTap={() => logout()}
-        />
-      </IconMenu>
+        <ListItem
+          button
+          onClick={() => { hideMenu(); logout(); }}
+        >
+          <ListItemIcon>
+            <Icon>exit_to_app</Icon>
+          </ListItemIcon>
+          <ListItemText primary={formatMessage({ id: 'Logout' })} />
+        </ListItem>
+      </Menu>
     ) : (
-      <IconMenu
-        iconButtonElement={<OldIconButton iconStyle={{ color: 'white' }}><MoreVertIcon /></OldIconButton>}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+      <Menu
+        open={rightMenuOpen}
+        anchorEl={rightMenuAnchorEl}
+        onRequestClose={() => hideMenu()}
       >
-        <MenuItem
-          leftIcon={<AvatarIcon />}
-          primaryText={formatMessage({ id: 'Login' })}
-          onTouchTap={() => login()}
-        />
-      </IconMenu>
+        <ListItem
+          button
+          onClick={() => { hideMenu(); login(); }}
+        >
+          <ListItemIcon>
+            <Icon>account_circle</Icon>
+          </ListItemIcon>
+          <ListItemText primary={formatMessage({ id: 'Login' })} />
+        </ListItem>
+      </Menu>
     );
 
     return (
@@ -113,9 +134,9 @@ class Header extends React.Component {
         <Toolbar>
           <IconButton
             contrast
-            onTouchTap={() => doToggleDrawer()}
+            onClick={() => doToggleDrawer()}
           >
-            <MenuIcon />
+            menu
           </IconButton>
           <Text
             style={{ flex: 1 }}
@@ -124,31 +145,21 @@ class Header extends React.Component {
           >
             <FormattedMessage id={getTitle(path)} />
           </Text>
-          { rightElement }
+          <IconButton
+            contrast
+            onClick={e => this.setState({
+              rightMenuAnchorEl: e.currentTarget,
+              rightMenuOpen: true,
+            })}
+          >
+            more_vert
+          </IconButton>
+          { rightMenu }
         </Toolbar>
       </AppBar>
     );
   }
 }
-
-Header.propTypes = {
-  path: PropTypes.string.isRequired,
-  doToggleDrawer: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  preferences: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-    scope: PropTypes.string.isRequired,
-  }),
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-Header.defaultProps = {
-  user: null,
-};
 
 export default injectIntl(withRouter(connect(
   (state, ownProps) => ({

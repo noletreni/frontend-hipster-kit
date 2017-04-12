@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Text from 'material-ui/Text';
 import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui/svg-icons/menu';
+import Icon from 'material-ui/Icon';
 
 import Drawer from 'material-ui/Drawer';
 
@@ -44,9 +44,9 @@ const NavigationDrawer = ({ closeDrawer, changeView, drawerOpened, path, user })
       <Toolbar>
         <IconButton
           contrast
-          onTouchTap={() => closeDrawer()}
+          onClick={() => closeDrawer()}
         >
-          <MenuIcon />
+          menu
         </IconButton>
         <Text
           style={{ flex: 1 }}
@@ -78,16 +78,16 @@ const NavigationDrawer = ({ closeDrawer, changeView, drawerOpened, path, user })
               <ListItem
                 button
                 divider={route.separator}
-                onTouchTap={() => { changeView(route.path); }}
+                onClick={() => { changeView(route.path); }}
               >
-                <ListItemIcon>
-                  {React.createElement(route.icon)}
+                <ListItemIcon
+                  style={active ? { color: theme.palette.primary[500] } : null}
+                >
+                  <Icon>{route.icon}</Icon>
                 </ListItemIcon>
 
                 <ListItemText
-                  style={
-                    active ? { color: theme.palette.primary[500] } : null
-                  }
+                  style={active ? { color: theme.palette.primary[500] } : null}
                   primary={<FormattedMessage id={route.name} />}
                 />
               </ListItem>

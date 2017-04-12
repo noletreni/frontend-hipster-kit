@@ -6,21 +6,17 @@ import Button from 'material-ui/Button';
 import {
   Table,
   TableBody,
-  TableHeader,
-  TableHeaderColumn,
+  TableHead,
   TableRow,
-  TableRowColumn,
-} from 'material-ui-old/Table';
+  TableCell,
+} from 'material-ui/Table';
 
+import Icon from 'material-ui/Icon';
+
+import { DialogContentText } from 'material-ui/Dialog';
 import DialogWithButtons from '../components/DialogWithButtons';
 
 import rest from '../utils/rest';
-
-const styles = {
-  userDetail: {
-    paddingTop: 10,
-  },
-};
 
 // We need to use a 'stateful' component here, because we want to refresh the
 // user list whenever this component is mounted (ie. user navigates to this view)
@@ -31,14 +27,32 @@ const styles = {
 // https://facebook.github.io/react/docs/components-and-props.html
 // http://stackoverflow.com/questions/36097965/react-when-to-use-es6-class-based-components-vs-functional-es6-components
 class Users extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      dialogOpen: false,
-    };
-  }
+  // Here we specify which props the component requires. This is especially useful in larger
+  // projects. When someone else uses your component and if they forget to pass a required prop,
+  // React will warn the developer through the console.
 
+  // See https://facebook.github.io/react/docs/typechecking-with-proptypes.html for more info.
+  static propTypes = {
+    users: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    userDetails: PropTypes.shape({
+      data: PropTypes.object.isRequired,
+    }).isRequired,
+    refresh: PropTypes.func.isRequired,
+    refreshUser: PropTypes.func.isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  // Component initial state
+  state = {
+    dialogOpen: false,
+  };
+
+  // Ran when component is first mounted, i.e. has rendered for the first time
   componentDidMount() {
     const { refresh } = this.props;
 
@@ -52,15 +66,15 @@ class Users extends React.Component {
     // Show the following user details in the dialog
     const userDetailsDescription = (
       <div>
-        <div style={styles.userDetail}>
+        <DialogContentText>
           <b>{ formatMessage({ id: 'userId' })}</b>{`: ${userDetails.data.id}` }
-        </div>
-        <div style={styles.userDetail}>
+        </DialogContentText>
+        <DialogContentText>
           <b>{ formatMessage({ id: 'email' })}</b>{`: ${userDetails.data.email}` }
-        </div>
-        <div style={styles.userDetail}>
+        </DialogContentText>
+        <DialogContentText>
           <b>{ formatMessage({ id: 'description' })}</b>{`: ${userDetails.data.description}` }
-        </div>
+        </DialogContentText>
       </div>
     );
 
@@ -76,33 +90,33 @@ class Users extends React.Component {
           close={() => this.setState({ dialogOpen: false })}
         />
 
-        <Table selectable={false}>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <Table>
+          <TableHead>
             <TableRow>
-              <TableHeaderColumn>{formatMessage({ id: 'userId' })}</TableHeaderColumn>
-              <TableHeaderColumn>{formatMessage({ id: 'email' })}</TableHeaderColumn>
-              <TableHeaderColumn />
+              <TableCell>{formatMessage({ id: 'userId' })}</TableCell>
+              <TableCell>{formatMessage({ id: 'email' })}</TableCell>
+              <TableCell />
             </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          </TableHead>
+          <TableBody>
             {
               // Loop over each user and render a <TableRow>
               users.data.map(user => (
-                <TableRow key={user.id} selectable>
-                  <TableRowColumn>{user.id}</TableRowColumn>
-                  <TableRowColumn>{user.email}</TableRowColumn>
-                  <TableRowColumn>
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell numeric>
                     <Button
-                      raised
                       primary
-                      onTouchTap={() => {
+                      onClick={() => {
                         refreshUser(user);
                         this.setState({ dialogOpen: true });
                       }}
                     >
+                      <Icon style={{ paddingRight: 10 }}>list</Icon>
                       {formatMessage({ id: 'showUserDetails' })}
                     </Button>
-                  </TableRowColumn>
+                  </TableCell>
                 </TableRow>
               ))
             }
@@ -112,25 +126,6 @@ class Users extends React.Component {
     );
   }
 }
-
-// Here we specify which props the component requires. This is especially useful in larger projects.
-// When someone else uses your component and if they forget to pass a required prop, React will
-// warn the developer through the console.
-
-// See https://facebook.github.io/react/docs/typechecking-with-proptypes.html for more info.
-Users.propTypes = {
-  users: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  userDetails: PropTypes.shape({
-    data: PropTypes.object.isRequired,
-  }).isRequired,
-  refresh: PropTypes.func.isRequired,
-  refreshUser: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 // Here we 'connect' the component to the Redux store. This means that the component will receive
 // parts of the Redux store as its props. Exactly which parts is chosen by the first function (
