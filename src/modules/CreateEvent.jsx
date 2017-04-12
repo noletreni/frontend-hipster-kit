@@ -72,6 +72,7 @@ class CreateEvent extends React.Component {
               value={this.state.description}
               onChange={event => this.setState({ description: event.target.value })}
             />
+            <Button raised primary>{formatMessage({ id: 'send' })}</Button>
           </CardContent>
 
         </ResponsiveCard>
