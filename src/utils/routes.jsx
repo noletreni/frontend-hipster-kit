@@ -36,7 +36,6 @@ import Home from '../modules/Home';
 import Users from '../modules/Users';
 import Events from '../modules/Events';
 import EventPage from '../modules/EventPage';
-import CreateEvent from '../modules/CreateEvent';
 import Preferences from '../modules/Preferences';
 import Login from '../modules/Login';
 import Logout from '../modules/Logout';
@@ -48,6 +47,7 @@ const routeConfigs = [{
   component: Home,
   icon: 'home',
   requiresLogin: false,
+  showHeader: true,
 }, {
   path: '/events',
   name: 'Events',
@@ -61,14 +61,6 @@ const routeConfigs = [{
   name: 'Event',
   component: EventPage,
   icon: 'event_note',
-  separator: true,
-  requiresLogin: true,
-  showHeader: true,
-}, {
-  path: '/events/create',
-  name: 'Create event',
-  component: CreateEvent,
-  icon: 'event',
   separator: true,
   requiresLogin: true,
   showHeader: true,
@@ -86,6 +78,7 @@ const routeConfigs = [{
   component: Preferences,
   icon: 'settings',
   requiresLogin: true,
+  showHeader: true,
 }, {
   path: '/login',
   name: 'Login',
@@ -93,6 +86,7 @@ const routeConfigs = [{
   icon: 'account_circle',
   requiresLogin: false,
   hideWhenScope: ['user', 'admin'],
+  showHeader: false,
 }, {
   path: '/logout',
   name: 'Logout',
@@ -100,6 +94,7 @@ const routeConfigs = [{
   icon: 'exit_to_app',
   requiresLogin: false,
   hideWhenScope: [null],
+  showHeader: false,
 }];
 
 export default routeConfigs;

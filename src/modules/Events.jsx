@@ -62,7 +62,6 @@ class Events extends React.Component {
     const {
       events,
       locale,
-      refreshEvent,
       createEvent,
       eventDetails,
       intl: { formatMessage },
@@ -124,7 +123,6 @@ Events.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
   refresh: PropTypes.func.isRequired,
-  refreshEvent: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,

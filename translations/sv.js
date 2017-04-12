@@ -22,9 +22,14 @@ export default {
   eventName: 'Evenemangets namn',
   eventDetails: 'Evenemangets detaljer',
   eventStartDate: 'Startdatum',
+  createEvent: 'Skapa evenemang',
+  startDate: 'Startdatum',
+  endDate: 'Slutdatum',
+  save: 'Spara',
 
   // Preferences view
   language: 'Språk',
+  selectedLanguage: 'Valt språk',
   resetState: 'Återställ applikationens läge',
   resetStateExplanation: 'Använd denna funktion om du upplever problem med applikationen. Påverkar endast din session.',
   resetStateButton: 'Töm applikationens läge',

@@ -136,49 +136,45 @@ class DialogWithButtons extends React.Component {
       <div style={styles.container}>
 
         <div style={loading ? styles.fadeContainer : styles.opaqueContainer}>
-          <DialogContentText>
-            <Text type="headline" component="h2">{formatMessage({ id: 'createEvent' })}</Text>
-            <TextField
-              id="name"
-              label={formatMessage({ id: 'eventName' })}
-              value={this.state.name}
-              onChange={event => this.setState({ name: event.target.value })}
-              onKeyDown={this.keyDown}
-            />
-            <TextField
-              id="description"
-              label={formatMessage({ id: 'description' })}
-              value={this.state.description}
-              onChange={event => this.setState({ description: event.target.value })}
-              onKeyDown={this.keyDown}
-            />
+          <Text type="headline" component="h2">{formatMessage({ id: 'createEvent' })}</Text>
+          <TextField
+            label={formatMessage({ id: 'eventName' })}
+            value={this.state.name}
+            onChange={event => this.setState({ name: event.target.value })}
+            onKeyDown={this.keyDown}
+          />
+          <TextField
+            label={formatMessage({ id: 'description' })}
+            value={this.state.description}
+            onChange={event => this.setState({ description: event.target.value })}
+            onKeyDown={this.keyDown}
+          />
 
-            <Text type="headline" component="h2">{formatMessage({ id: 'startTime' })}</Text>
-            <DatePicker
-              hintText={formatMessage({ id: 'eventStartDate' })}
-              value={startDate}
-              onChange={(event, startDate) => this.setState({ startDate })}
-            />
-            <TimePicker
-              format="24hr"
-              hintText={formatMessage({ id: 'eventStartTime' })}
-              value={startTime}
-              onChange={(event, startTime) => this.setState({ startTime })}
-            />
+          <Text type="headline" component="h2">{formatMessage({ id: 'startDate' })}</Text>
+          <DatePicker
+            id="startDate"
+            value={startDate}
+            onChange={(event, startDate) => this.setState({ startDate })}
+          />
+          <TimePicker
+            id="startTime"
+            format="24hr"
+            value={startTime}
+            onChange={(event, startTime) => this.setState({ startTime })}
+          />
 
-            <Text type="headline" component="h2">{formatMessage({ id: 'endTime' })}</Text>
-            <DatePicker
-              hintText={formatMessage({ id: 'eventEndDate' })}
-              value={endDate}
-              onChange={(event, endDate) => this.setState({ endDate })}
-            />
-            <TimePicker
-              format="24hr"
-              hintText={formatMessage({ id: 'eventEndTime' })}
-              value={endTime}
-              onChange={(event, endTime) => this.setState({ endTime })}
-            />
-          </DialogContentText>
+          <Text type="headline" component="h2">{formatMessage({ id: 'endDate' })}</Text>
+          <DatePicker
+            id="endDate"
+            value={endDate}
+            onChange={(event, endDate) => this.setState({ endDate })}
+          />
+          <TimePicker
+            id="endTime"
+            format="24hr"
+            value={endTime}
+            onChange={(event, endTime) => this.setState({ endTime })}
+          />
         </div>
       </div>
     );
@@ -195,8 +191,8 @@ class DialogWithButtons extends React.Component {
             <IconButton contrast onClick={close}>
               <Icon>close</Icon>
             </IconButton>
-            <Text type="title" colorInherit style={{flex: 1}}>Sound</Text>
-            <Button contrast onClick={() => this.submit(this.state)}>save</Button>
+            <Text type="title" colorInherit style={{flex: 1}}>{formatMessage({ id: 'createEvent' })}</Text>
+            <Button contrast onClick={() => this.submit(this.state)}>{formatMessage({ id: 'save' })}</Button>
           </Toolbar>
         </AppBar>
         <DialogTitle>{title}</DialogTitle>
