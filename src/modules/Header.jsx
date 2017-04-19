@@ -44,7 +44,7 @@ const getTitle = (path) => {
 
 const mapStateToProps = (state, ownProps) => ({
   path: ownProps.location.pathname,
-  user: state.auth.data.token && jwtDecode(state.auth.data.token),
+  user: state.auth.data.decoded,
 });
 
 const mapDispatchToProps = dispatch => ({
