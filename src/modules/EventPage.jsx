@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { push } from 'connected-react-router';
-import { LinearProgress } from 'material-ui/Progress';
 
 import {
   CardContent,
 } from 'material-ui/Card';
 import Text from 'material-ui/Text';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 
 import rest from '../utils/rest';
 
@@ -21,21 +22,22 @@ class EventPage extends React.Component {
 
     this.state = {
       dialogOpen: false,
+      id: 3, //TODO: replace with actual id
     };
   }
 
 
   componentDidMount() {
-    const { refreshEvent, eventId } = this.props;
+    const { refreshEvent } = this.props;
 
-    refreshEvent(eventId);
+    refreshEvent(this.state.id);
   }
 
   render() {
     const {
+      create,
       eventDetails,
       locale,
-      loading,
       intl: { formatMessage },
      } = this.props;
 
@@ -46,30 +48,40 @@ class EventPage extends React.Component {
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-    };
-
-    const progress = loading ? <LinearProgress /> : null;
-
+    }
     return (
       <CardWrapper>
         <ResponsiveCard>
-          { loading ?
-            <CardContent>
-              <Text type="headline" component="h1">{ '...' }</Text>
-              <Text type="caption">{ '...' }</Text>
-              <Text type="body1">{ '...' }</Text>
-              <Text type="body1">{ '...' }</Text>
-            </CardContent>
-            :
-            <CardContent>
-              <Text type="headline" component="h1">{ eventDetails.name }</Text>
-              <Text type="caption">{ formatMessage({ id: 'createdBy' })} { eventDetails.ownerName }</Text>
-              <Text type="body1"><b>{ formatMessage({ id: 'eventStartTime' })}:</b> { new Date(eventDetails.startDate).toLocaleString(locale, dateOptions) }</Text>
-              <Text type="body1"><b>{ formatMessage({ id: 'description' })}:</b> { eventDetails.description }</Text>
-            </CardContent>
-          }
-
-          { progress }
+          <CardContent>
+            <Text type="headline" component="h1">{ eventDetails.data.name }</Text>
+            <Text type="caption">{ formatMessage({ id: 'createdBy' })} { eventDetails.data.ownerName }</Text>
+            <Text type="body1"><b>{ formatMessage({ id: 'eventStartTime' })}:</b> { new Date(eventDetails.data.startDate).toLocaleString(locale, dateOptions) }</Text>
+            <Text type="body1"><b>{ formatMessage({ id: 'description' })}:</b> { eventDetails.data.description }</Text>
+          </CardContent>
+        </ResponsiveCard>
+        <ResponsiveCard>
+          <CardContent>
+            <Text type="headline" component="h1">{ formatMessage({ id: 'register' }) }</Text>
+            <TextField
+              id="name"
+              label={formatMessage({ id: 'name' })}
+              value={this.state.name}
+              onChange={event => this.setState({ name: event.target.value })}
+            />
+            <TextField
+              id="name"
+              label={formatMessage({ id: 'email' })}
+              value={this.state}
+              onChange={event => this.setState({ email: event.target.value })}
+            />
+            <Button
+              raised
+              primary
+              onTouchTap={() => create(this.state)}
+            >
+              {formatMessage({ id: 'send' })}
+            </Button>
+          </CardContent>
         </ResponsiveCard>
       </CardWrapper>
     );
@@ -77,16 +89,20 @@ class EventPage extends React.Component {
 }
 
 export default injectIntl(connect(
-  (state, ownProps) => ({
+  state => ({
     events: state.events,
-    eventDetails: state.eventDetails.data,
-    loading: state.eventDetails.loading,
+    eventDetails: state.eventDetails,
     locale: state.intl.locale,
-    eventId: ownProps.match.params.id,
   }),
   dispatch => ({
     refreshEvent: (eventId) => {
       dispatch(rest.actions.eventDetails({ eventId }));
+    },
+
+    create: (registration) => {
+      dispatch(rest.actions.events.post({}, {
+        body: JSON.stringify(registration),
+      }));
     },
   }),
 )(EventPage));
