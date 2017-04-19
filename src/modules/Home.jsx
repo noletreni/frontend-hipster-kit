@@ -32,7 +32,7 @@ class Home extends React.Component {
 
     const eventCards = events.map(event => (
       <ResponsiveCard key={event.id}>
-        <CardContent expandable>
+        <CardContent>
           <Text component="h2">
             {event.name}
           </Text>
