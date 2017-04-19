@@ -59,6 +59,10 @@ const rest = reduxApi({
     url: `${config.apiRoot}/events/:eventId`,
     crud: true,
   },
+  registrations: {
+    url: `${config.apiRoot}/registrations`,
+    crud: true,
+  },
   // Add more API endpoints here! Examples below:
 
   /*

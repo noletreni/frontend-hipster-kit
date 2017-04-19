@@ -17,20 +17,14 @@ import CardWrapper from '../components/CardWrapper';
 import ResponsiveCard from '../components/ResponsiveCard';
 
 class EventPage extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      dialogOpen: false,
-      id: 3, //TODO: replace with actual id
-    };
-  }
-
+  state = {
+    extraAnswers: [],
+  };
 
   componentDidMount() {
     const { refreshEvent } = this.props;
 
-    refreshEvent(this.state.id);
+    refreshEvent(this.props.eventId);
   }
 
   render() {
@@ -71,13 +65,16 @@ class EventPage extends React.Component {
             <TextField
               id="name"
               label={formatMessage({ id: 'email' })}
-              value={this.state}
+              value={this.state.email}
               onChange={event => this.setState({ email: event.target.value })}
             />
             <Button
               raised
               primary
-              onTouchTap={() => create(this.state)}
+              onTouchTap={() => create({
+                eventId: this.props.eventId,
+                ...this.state,
+              })}
             >
               {formatMessage({ id: 'send' })}
             </Button>
@@ -89,7 +86,8 @@ class EventPage extends React.Component {
 }
 
 export default injectIntl(connect(
-  state => ({
+  (state, ownProps) => ({
+    eventId: ownProps.match.params.id,
     events: state.events,
     eventDetails: state.eventDetails,
     locale: state.intl.locale,
@@ -100,7 +98,7 @@ export default injectIntl(connect(
     },
 
     create: (registration) => {
-      dispatch(rest.actions.events.post({}, {
+      dispatch(rest.actions.registrations.post({}, {
         body: JSON.stringify(registration),
       }));
     },
